@@ -70,6 +70,7 @@ const Buadrate = {
     B19200: '19200',
     B38400: '38400',
     B57600: '57600',
+    B76800: '76800',
     B115200: '115200'
 };
 
@@ -450,6 +451,10 @@ class OpenBlockArduinoNanoDevice {
                 value: Buadrate.B57600
             },
             {
+                text: '76800',
+                value: Buadrate.B76800
+            },
+            {
                 text: '115200',
                 value: Buadrate.B115200
             }
@@ -768,7 +773,7 @@ class OpenBlockArduinoNanoDevice {
                         arguments: {
                             VALUE: {
                                 type: ArgumentType.STRING,
-                                defaultValue: 'Hello OpenBlock'
+                                defaultValue: 'Hello Scratch'
                             },
                             EOL: {
                                 type: ArgumentType.STRING,

@@ -4,7 +4,7 @@ const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const ProgramModeType = require('../../extension-support/program-mode-type');
 
-const ArduinoPeripheral = require('../arduinoCommen/arduino-peripheral');
+const EspPeripheral = require('../arduinoCommen/esp-peripheral');
 
 /**
  * The list of USB device filters.
@@ -109,6 +109,7 @@ const Buadrate = {
     B19200: '19200',
     B38400: '38400',
     B57600: '57600',
+    B76800: '76800',
     B115200: '115200'
 };
 
@@ -140,7 +141,7 @@ const DataType = {
 /**
  * Manage communication with a Arduino esp32 peripheral over a OpenBlock Link client socket.
  */
-class ArduinoEsp32 extends ArduinoPeripheral{
+class ArduinoEsp32 extends EspPeripheral{
     /**
      * Construct a Arduino communication object.
      * @param {Runtime} runtime - the OpenBlock runtime
@@ -744,6 +745,10 @@ class OpenBlockArduinoEsp32Device {
                 value: Buadrate.B57600
             },
             {
+                text: '76800',
+                value: Buadrate.B76800
+            },
+            {
                 text: '115200',
                 value: Buadrate.B115200
             }
@@ -1122,7 +1127,7 @@ class OpenBlockArduinoEsp32Device {
                             },
                             VALUE: {
                                 type: ArgumentType.STRING,
-                                defaultValue: 'Hello OpenBlock'
+                                defaultValue: 'Hello Scratch'
                             },
                             EOL: {
                                 type: ArgumentType.STRING,

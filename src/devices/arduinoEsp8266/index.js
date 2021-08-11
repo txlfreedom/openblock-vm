@@ -4,7 +4,7 @@ const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const ProgramModeType = require('../../extension-support/program-mode-type');
 
-const ArduinoPeripheral = require('../arduinoCommen/arduino-peripheral');
+const EspPeripheral = require('../arduinoCommen/esp-peripheral');
 
 /**
  * The list of USB device filters.
@@ -33,7 +33,7 @@ const SERIAL_CONFIG = {
  */
 const DIVECE_OPT = {
     type: 'arduino',
-    fqbn: 'esp8266:esp8266:generic'
+    fqbn: 'esp8266:esp8266:generic:baud=921600'
 };
 
 const Pins = {
@@ -69,6 +69,7 @@ const Buadrate = {
     B19200: '19200',
     B38400: '38400',
     B57600: '57600',
+    B76800: '76800',
     B115200: '115200'
 };
 
@@ -98,7 +99,7 @@ const DataType = {
 /**
  * Manage communication with a Arduino Esp8266 peripheral over a OpenBlock Link client socket.
  */
-class arduinoEsp8266 extends ArduinoPeripheral{
+class arduinoEsp8266 extends EspPeripheral{
     /**
      * Construct a Arduino communication object.
      * @param {Runtime} runtime - the OpenBlock runtime
@@ -512,6 +513,10 @@ class OpenBlockArduinoEsp8266Device {
                 value: Buadrate.B57600
             },
             {
+                text: '76800',
+                value: Buadrate.B76800
+            },
+            {
                 text: '115200',
                 value: Buadrate.B115200
             }
@@ -793,7 +798,7 @@ class OpenBlockArduinoEsp8266Device {
                             VALUE: {
                                 type: ArgumentType.STRING,
                                 menu: 'baudrate',
-                                defaultValue: Buadrate.B9600
+                                defaultValue: Buadrate.B76800
                             }
                         },
                         programMode: [ProgramModeType.UPLOAD]
@@ -809,7 +814,7 @@ class OpenBlockArduinoEsp8266Device {
                         arguments: {
                             VALUE: {
                                 type: ArgumentType.STRING,
-                                defaultValue: 'Hello OpenBlock'
+                                defaultValue: 'Hello Scratch'
                             },
                             EOL: {
                                 type: ArgumentType.STRING,

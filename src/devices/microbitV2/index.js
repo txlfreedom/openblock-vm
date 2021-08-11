@@ -808,7 +808,7 @@ class OpenBlockMicrobitV2Device {
                     arguments: {
                         TEXT: {
                             type: ArgumentType.STRING,
-                            defaultValue: 'Hello OpenBlock'
+                            defaultValue: 'Hello Scratch'
                         }
                     }
                 },
@@ -823,7 +823,7 @@ class OpenBlockMicrobitV2Device {
                     arguments: {
                         TEXT: {
                             type: ArgumentType.STRING,
-                            defaultValue: 'Hello OpenBlock'
+                            defaultValue: 'Hello Scratch'
                         }
                     }
                 },
@@ -1085,7 +1085,7 @@ class OpenBlockMicrobitV2Device {
                     arguments: {
                         TEXT: {
                             type: ArgumentType.STRING,
-                            defaultValue: 'Hello OpenBlock'
+                            defaultValue: 'Hello Scratch'
                         }
                     }
                 },
@@ -1145,7 +1145,7 @@ class OpenBlockMicrobitV2Device {
                     arguments: {
                         TEXT: {
                             type: ArgumentType.STRING,
-                            defaultValue: 'Hello OpenBlock'
+                            defaultValue: 'Hello Scratch'
                         }
                     }
                 }

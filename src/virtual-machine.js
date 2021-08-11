@@ -603,12 +603,8 @@ class VirtualMachine extends EventEmitter {
             this.extensionManager.getDeviceExtensionsList().then(() => {
                 this.installDeviceExtensionsSync();
             });
-            this.on('installDeviceExtensionsSync.success', () => {
-                resolve();
-            });
-            this.on('installDeviceExtensionsSync.error', err => {
-                reject(err);
-            });
+            this.on('installDeviceExtensionsSync.success', () => resolve());
+            this.on('installDeviceExtensionsSync.error', err => reject(err));
         });
     }
 
@@ -651,10 +647,6 @@ class VirtualMachine extends EventEmitter {
             }
         }
 
-        if (deviceExtensions) {
-            allPromises.push(this.installDeviceExtensions(deviceExtensions));
-        }
-
         targets = targets.filter(target => !!target);
 
         return Promise.all(allPromises).then(() => {
@@ -682,7 +674,17 @@ class VirtualMachine extends EventEmitter {
                 this.editingTarget.fixUpVariableReferences();
             }
 
-            // Update the VM user's knowledge of targets and blocks on the workspace.
+            if (deviceExtensions) {
+                return this.installDeviceExtensions(deviceExtensions)
+                    .then(() => {
+                        this.emitTargetsUpdate(false /* Don't emit project change */);
+                        this.emitWorkspaceUpdate();
+                        this.runtime.setEditingTarget(this.editingTarget);
+                        this.runtime.ioDevices.cloud.setStage(this.runtime.getTargetForStage());
+                        this.runtime.setRealtimeMode(programMode === 'realtime');
+                    })
+                    .catch(err => Promise.reject(err));
+            }
             this.emitTargetsUpdate(false /* Don't emit project change */);
             this.emitWorkspaceUpdate();
             this.runtime.setEditingTarget(this.editingTarget);
