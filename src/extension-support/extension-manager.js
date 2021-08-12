@@ -41,7 +41,8 @@ const builtinDevices = {
     arduinoEsp8266: () => require('../devices/arduinoEsp8266'),
     microbit: () => require('../devices/microbit'),
     makeyMakey: () => require('../devices/makeymakey'),
-    microbitV2: () => require('../devices/microbitV2')
+    microbitV2: () => require('../devices/microbitV2'),
+	unoCore: () => require('../devices/unoCore')
 
     // todo transform these to device extension
     // wedo2: () => require('../extensions/scratch3_wedo2'),
