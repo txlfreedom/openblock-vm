@@ -4,18 +4,13 @@ const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const ProgramModeType = require('../../extension-support/program-mode-type');
 
-const ArduinoPeripheral = require('../arduinoCommen/arduino-peripheral');
+const ArduinoPeripheral = require('../arduinoCommon/arduino-peripheral');
 
 /**
  * The list of USB device filters.
  * @readonly
  */
 const PNPID_LIST = [
-    // https://github.com/arduino/Arduino/blob/1.8.0/hardware/arduino/avr/boards.txt#L51-L58
-    'USB\\VID_2341&PID_0043',
-    'USB\\VID_2341&PID_0001',
-    'USB\\VID_2A03&PID_0043',
-    'USB\\VID_2341&PID_0243',
     // For chinese clones that use CH340
     'USB\\VID_1A86&PID_7523'
 ];
@@ -25,7 +20,7 @@ const PNPID_LIST = [
  * @readonly
  */
 const SERIAL_CONFIG = {
-    baudRate: 57600,
+    baudRate: 115200,
     dataBits: 8,
     stopBits: 1
 };
@@ -37,7 +32,7 @@ const SERIAL_CONFIG = {
 const DIVECE_OPT = {
     type: 'arduino',
     fqbn: 'arduino:avr:uno',
-    firmware: 'unoCore.standardFirmata.ino.hex'
+    firmware: 'arduinoUno.standardFirmata.ino.hex'
 };
 
 const Pins = {
@@ -98,20 +93,20 @@ const InterrupMode = {
 };
 
 const DataType = {
-    WholeNumber: 'WHOLE_NUMBER',
+    Integer: 'INTEGER',
     Decimal: 'DECIMAL',
     String: 'STRING'
 };
 
 /**
- * Manage communication with a unoCore peripheral over a OpenBlock Link client socket.
+ * Manage communication with a Arduino Uno peripheral over a OpenBlock Link client socket.
  */
 class UnoCore extends ArduinoPeripheral{
     /**
      * Construct a Arduino communication object.
      * @param {Runtime} runtime - the OpenBlock runtime
      * @param {string} deviceId - the id of the extension
-     * @param {string} originalDeviceId - the original id of the peripheral, like xxx_unoCore
+     * @param {string} originalDeviceId - the original id of the peripheral, like xxx_arduinoUno
      */
     constructor (runtime, deviceId, originalDeviceId) {
         super(runtime, deviceId, originalDeviceId, PNPID_LIST, SERIAL_CONFIG, DIVECE_OPT);
@@ -119,7 +114,7 @@ class UnoCore extends ArduinoPeripheral{
 }
 
 /**
- * OpenBlock blocks to interact with a unoCore peripheral.
+ * OpenBlock blocks to interact with a Arduino Uno peripheral.
  */
 class OpenBlockUnoCoreDevice {
     /**
@@ -218,7 +213,7 @@ class OpenBlockUnoCoreDevice {
         return [
             {
                 text: formatMessage({
-                    id: 'unoCore.modeMenu.input',
+                    id: 'arduinoUno.modeMenu.input',
                     default: 'input',
                     description: 'label for input pin mode'
                 }),
@@ -226,7 +221,7 @@ class OpenBlockUnoCoreDevice {
             },
             {
                 text: formatMessage({
-                    id: 'unoCore.modeMenu.output',
+                    id: 'arduinoUno.modeMenu.output',
                     default: 'output',
                     description: 'label for output pin mode'
                 }),
@@ -234,7 +229,7 @@ class OpenBlockUnoCoreDevice {
             },
             {
                 text: formatMessage({
-                    id: 'unoCore.modeMenu.inputPullup',
+                    id: 'arduinoUno.modeMenu.inputPullup',
                     default: 'input-pullup',
                     description: 'label for input-pullup pin mode'
                 }),
@@ -243,68 +238,7 @@ class OpenBlockUnoCoreDevice {
         ];
     }
 
-    get DIGITAL_PINS_MENU () {
-        return [
-            {
-                text: '0',
-                value: Pins.D0
-            },
-            {
-                text: '1',
-                value: Pins.D1
-            },
-            {
-                text: '2',
-                value: Pins.D2
-            },
-            {
-                text: '3',
-                value: Pins.D3
-            },
-            {
-                text: '4',
-                value: Pins.D4
-            },
-            {
-                text: '5',
-                value: Pins.D5
-            },
-            {
-                text: '6',
-                value: Pins.D6
-            },
-            {
-                text: '7',
-                value: Pins.D7
-            },
-            {
-                text: '8',
-                value: Pins.D8
-            },
-            {
-                text: '9',
-                value: Pins.D9
-            },
-            {
-                text: '10',
-                value: Pins.D10
-            },
-            {
-                text: '11',
-                value: Pins.D11
-            },
-            {
-                text: '12',
-                value: Pins.D12
-            },
-            {
-                text: '13',
-                value: Pins.D13
-            }
-        ];
-    }
-
-    get ANALOG_PINS_MENU () {
+   get ANALOG_PINS_MENU () {
         return [
             {
                 text: 'A0',
@@ -332,12 +266,12 @@ class OpenBlockUnoCoreDevice {
             }
         ];
     }
-
+	
     get LEVEL_MENU () {
         return [
             {
                 text: formatMessage({
-                    id: 'unoCore.levelMenu.high',
+                    id: 'arduinoUno.levelMenu.high',
                     default: 'high',
                     description: 'label for high level'
                 }),
@@ -345,7 +279,7 @@ class OpenBlockUnoCoreDevice {
             },
             {
                 text: formatMessage({
-                    id: 'unoCore.levelMenu.low',
+                    id: 'arduinoUno.levelMenu.low',
                     default: 'low',
                     description: 'label for low level'
                 }),
@@ -382,7 +316,7 @@ class OpenBlockUnoCoreDevice {
             }
         ];
     }
-
+	
     get INTERRUPT_PINS_MENU () {
         return [
             {
@@ -400,7 +334,7 @@ class OpenBlockUnoCoreDevice {
         return [
             {
                 text: formatMessage({
-                    id: 'unoCore.InterrupModeMenu.risingEdge',
+                    id: 'arduinoUno.InterrupModeMenu.risingEdge',
                     default: 'rising edge',
                     description: 'label for rising edge interrup'
                 }),
@@ -408,7 +342,7 @@ class OpenBlockUnoCoreDevice {
             },
             {
                 text: formatMessage({
-                    id: 'unoCore.InterrupModeMenu.fallingEdge',
+                    id: 'arduinoUno.InterrupModeMenu.fallingEdge',
                     default: 'falling edge',
                     description: 'label for falling edge interrup'
                 }),
@@ -416,7 +350,7 @@ class OpenBlockUnoCoreDevice {
             },
             {
                 text: formatMessage({
-                    id: 'unoCore.InterrupModeMenu.changeEdge',
+                    id: 'arduinoUno.InterrupModeMenu.changeEdge',
                     default: 'change edge',
                     description: 'label for change edge interrup'
                 }),
@@ -424,7 +358,7 @@ class OpenBlockUnoCoreDevice {
             },
             {
                 text: formatMessage({
-                    id: 'unoCore.InterrupModeMenu.low',
+                    id: 'arduinoUno.InterrupModeMenu.low',
                     default: 'low',
                     description: 'label for low interrup'
                 }),
@@ -470,7 +404,7 @@ class OpenBlockUnoCoreDevice {
         return [
             {
                 text: formatMessage({
-                    id: 'unoCore.eolMenu.warp',
+                    id: 'arduinoUno.eolMenu.warp',
                     default: 'warp',
                     description: 'label for warp print'
                 }),
@@ -478,7 +412,7 @@ class OpenBlockUnoCoreDevice {
             },
             {
                 text: formatMessage({
-                    id: 'unoCore.eolMenu.noWarp',
+                    id: 'arduinoUno.eolMenu.noWarp',
                     default: 'no-warp',
                     description: 'label for no warp print'
                 }),
@@ -491,15 +425,15 @@ class OpenBlockUnoCoreDevice {
         return [
             {
                 text: formatMessage({
-                    id: 'unoCore.dataTypeMenu.wholeNumber',
-                    default: 'whole number',
-                    description: 'label for whole number'
+                    id: 'arduinoUno.dataTypeMenu.integer',
+                    default: 'integer',
+                    description: 'label for integer'
                 }),
-                value: DataType.WholeNumber
+                value: DataType.Integer
             },
             {
                 text: formatMessage({
-                    id: 'unoCore.dataTypeMenu.decimal',
+                    id: 'arduinoUno.dataTypeMenu.decimal',
                     default: 'decimal',
                     description: 'label for decimal number'
                 }),
@@ -507,7 +441,7 @@ class OpenBlockUnoCoreDevice {
             },
             {
                 text: formatMessage({
-                    id: 'unoCore.dataTypeMenu.string',
+                    id: 'arduinoUno.dataTypeMenu.string',
                     default: 'string',
                     description: 'label for string'
                 }),
@@ -519,7 +453,7 @@ class OpenBlockUnoCoreDevice {
     /**
      * Construct a set of Arduino blocks.
      * @param {Runtime} runtime - the OpenBlock runtime.
-     * @param {string} originalDeviceId - the original id of the peripheral, like xxx_unoCore
+     * @param {string} originalDeviceId - the original id of the peripheral, like xxx_arduinoUno
      */
     constructor (runtime, originalDeviceId) {
         /**
@@ -528,7 +462,7 @@ class OpenBlockUnoCoreDevice {
          */
         this.runtime = runtime;
 
-        // Create a new unoCore peripheral instance
+        // Create a new Arduino uno peripheral instance
         this._peripheral = new UnoCore(this.runtime, OpenBlockUnoCoreDevice.DEVICE_ID, originalDeviceId);
     }
 
@@ -540,9 +474,9 @@ class OpenBlockUnoCoreDevice {
             {
                 id: 'pin',
                 name: formatMessage({
-                    id: 'unoCore.category.pins',
+                    id: 'arduinoUno.category.pins',
                     default: 'Pins',
-                    description: 'The name of the unoCore device pin category'
+                    description: 'The name of the arduino uno device pin category'
                 }),
                 color1: '#4C97FF',
                 color2: '#3373CC',
@@ -552,7 +486,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'setPinMode',
                         text: formatMessage({
-                            id: 'unoCore.pins.setPinMode',
+                            id: 'arduinoUno.pins.setPinMode',
                             default: 'set pin [PIN] mode [MODE]',
                             description: 'unoCore set pin mode'
                         }),
@@ -573,7 +507,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'setDigitalOutput',
                         text: formatMessage({
-                            id: 'unoCore.pins.setDigitalOutput',
+                            id: 'arduinoUno.pins.setDigitalOutput',
                             default: 'set digital pin [PIN] out [LEVEL]',
                             description: 'unoCore set digital pin out'
                         }),
@@ -595,7 +529,7 @@ class OpenBlockUnoCoreDevice {
 
                         opcode: 'setPwmOutput',
                         text: formatMessage({
-                            id: 'unoCore.pins.setPwmOutput',
+                            id: 'arduinoUno.pins.setPwmOutput',
                             default: 'set pwm pin [PIN] out [OUT]',
                             description: 'unoCore set pwm pin out'
                         }),
@@ -616,7 +550,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'readDigitalPin',
                         text: formatMessage({
-                            id: 'unoCore.pins.readDigitalPin',
+                            id: 'arduinoUno.pins.readDigitalPin',
                             default: 'read digital pin [PIN]',
                             description: 'unoCore read digital pin'
                         }),
@@ -624,7 +558,7 @@ class OpenBlockUnoCoreDevice {
                         arguments: {
                             PIN: {
                                 type: ArgumentType.STRING,
-                                menu: 'digitalPins',
+                                menu: 'pins',
                                 defaultValue: Pins.D0
                             }
                         }
@@ -632,7 +566,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'readAnalogPin',
                         text: formatMessage({
-                            id: 'unoCore.pins.readAnalogPin',
+                            id: 'arduinoUno.pins.readAnalogPin',
                             default: 'read analog pin [PIN]',
                             description: 'unoCore read analog pin'
                         }),
@@ -650,7 +584,7 @@ class OpenBlockUnoCoreDevice {
 
                         opcode: 'setServoOutput',
                         text: formatMessage({
-                            id: 'unoCore.pins.setServoOutput',
+                            id: 'arduinoUno.pins.setServoOutput',
                             default: 'set servo pin [PIN] out [OUT]',
                             description: 'unoCore set servo pin out'
                         }),
@@ -672,7 +606,7 @@ class OpenBlockUnoCoreDevice {
 
                         opcode: 'attachInterrupt',
                         text: formatMessage({
-                            id: 'unoCore.pins.attachInterrupt',
+                            id: 'arduinoUno.pins.attachInterrupt',
                             default: 'attach interrupt pin [PIN] mode [MODE] executes',
                             description: 'unoCore attach interrupt'
                         }),
@@ -695,7 +629,7 @@ class OpenBlockUnoCoreDevice {
 
                         opcode: 'detachInterrupt',
                         text: formatMessage({
-                            id: 'unoCore.pins.detachInterrupt',
+                            id: 'arduinoUno.pins.detachInterrupt',
                             default: 'detach interrupt pin [PIN]',
                             description: 'unoCore detach interrupt'
                         }),
@@ -716,9 +650,6 @@ class OpenBlockUnoCoreDevice {
                     },
                     mode: {
                         items: this.MODE_MENU
-                    },
-                    digitalPins: {
-                        items: this.DIGITAL_PINS_MENU
                     },
                     analogPins: {
                         items: this.ANALOG_PINS_MENU
@@ -741,9 +672,9 @@ class OpenBlockUnoCoreDevice {
             {
                 id: 'serial',
                 name: formatMessage({
-                    id: 'unoCore.category.serial',
+                    id: 'arduinoUno.category.serial',
                     default: 'Serial',
-                    description: 'The name of the unoCore device serial category'
+                    description: 'The name of the arduino uno device serial category'
                 }),
                 color1: '#9966FF',
                 color2: '#774DCB',
@@ -753,7 +684,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'serialBegin',
                         text: formatMessage({
-                            id: 'unoCore.serial.serialBegin',
+                            id: 'arduinoUno.serial.serialBegin',
                             default: 'serial begin baudrate [VALUE]',
                             description: 'unoCore serial begin'
                         }),
@@ -770,7 +701,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'serialPrint',
                         text: formatMessage({
-                            id: 'unoCore.serial.serialPrint',
+                            id: 'arduinoUno.serial.serialPrint',
                             default: 'serial print [VALUE] [EOL]',
                             description: 'unoCore serial print'
                         }),
@@ -791,7 +722,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'serialAvailable',
                         text: formatMessage({
-                            id: 'unoCore.serial.serialAvailable',
+                            id: 'arduinoUno.serial.serialAvailable',
                             default: 'serial available data length',
                             description: 'unoCore serial available data length'
                         }),
@@ -802,7 +733,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'serialReadData',
                         text: formatMessage({
-                            id: 'unoCore.serial.serialReadData',
+                            id: 'arduinoUno.serial.serialReadData',
                             default: 'serial read data',
                             description: 'unoCore serial read data'
                         }),
@@ -823,9 +754,9 @@ class OpenBlockUnoCoreDevice {
             {
                 id: 'data',
                 name: formatMessage({
-                    id: 'unoCore.category.data',
+                    id: 'arduinoUno.category.data',
                     default: 'Data',
-                    description: 'The name of the unoCore device data category'
+                    description: 'The name of the arduino uno device data category'
                 }),
                 color1: '#CF63CF',
                 color2: '#C94FC9',
@@ -834,7 +765,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'dataMap',
                         text: formatMessage({
-                            id: 'unoCore.data.dataMap',
+                            id: 'arduinoUno.data.dataMap',
                             default: 'map [DATA] from ([ARG0], [ARG1]) to ([ARG2], [ARG3])',
                             description: 'unoCore data map'
                         }),
@@ -867,7 +798,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'dataConstrain',
                         text: formatMessage({
-                            id: 'unoCore.data.dataConstrain',
+                            id: 'arduinoUno.data.dataConstrain',
                             default: 'constrain [DATA] between ([ARG0], [ARG1])',
                             description: 'unoCore data constrain'
                         }),
@@ -891,7 +822,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'dataConvert',
                         text: formatMessage({
-                            id: 'unoCore.data.dataConvert',
+                            id: 'arduinoUno.data.dataConvert',
                             default: 'convert [DATA] to [TYPE]',
                             description: 'unoCore data convert'
                         }),
@@ -904,7 +835,7 @@ class OpenBlockUnoCoreDevice {
                             TYPE: {
                                 type: ArgumentType.STRING,
                                 menu: 'dataType',
-                                defaultValue: DataType.WholeNumber
+                                defaultValue: DataType.Integer
                             }
                         },
                         programMode: [ProgramModeType.UPLOAD]
@@ -912,7 +843,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'dataConvertASCIICharacter',
                         text: formatMessage({
-                            id: 'unoCore.data.dataConvertASCIICharacter',
+                            id: 'arduinoUno.data.dataConvertASCIICharacter',
                             default: 'convert [DATA] to ASCII character',
                             description: 'unoCore data convert to ASCII character'
                         }),
@@ -928,7 +859,7 @@ class OpenBlockUnoCoreDevice {
                     {
                         opcode: 'dataConvertASCIINumber',
                         text: formatMessage({
-                            id: 'unoCore.data.dataConvertASCIINumber',
+                            id: 'arduinoUno.data.dataConvertASCIINumber',
                             default: 'convert [DATA] to ASCII nubmer',
                             description: 'unoCore data convert to ASCII nubmer'
                         }),

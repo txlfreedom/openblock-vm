@@ -4,7 +4,7 @@ const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
 const ProgramModeType = require('../../extension-support/program-mode-type');
 
-const ArduinoPeripheral = require('../arduinoCommen/arduino-peripheral');
+const ArduinoPeripheral = require('../arduinoCommon/arduino-peripheral');
 
 /**
  * The list of USB device filters.
@@ -100,7 +100,7 @@ const InterrupMode = {
 };
 
 const DataType = {
-    WholeNumber: 'WHOLE_NUMBER',
+    Integer: 'INTEGER',
     Decimal: 'DECIMAL',
     String: 'STRING'
 };
@@ -302,6 +302,30 @@ class OpenBlockArduinoUnoUltraDevice {
             {
                 text: '13',
                 value: Pins.D13
+            },
+            {
+                text: 'A0',
+                value: Pins.A0
+            },
+            {
+                text: 'A1',
+                value: Pins.A1
+            },
+            {
+                text: 'A2',
+                value: Pins.A2
+            },
+            {
+                text: 'A3',
+                value: Pins.A3
+            },
+            {
+                text: 'A4',
+                value: Pins.A4
+            },
+            {
+                text: 'A5',
+                value: Pins.A5
             }
         ];
     }
@@ -501,11 +525,11 @@ class OpenBlockArduinoUnoUltraDevice {
         return [
             {
                 text: formatMessage({
-                    id: 'arduinoUno.dataTypeMenu.wholeNumber',
-                    default: 'whole number',
-                    description: 'label for whole number'
+                    id: 'arduinoUno.dataTypeMenu.integer',
+                    default: 'integer',
+                    description: 'label for integer'
                 }),
-                value: DataType.WholeNumber
+                value: DataType.Integer
             },
             {
                 text: formatMessage({
@@ -915,7 +939,7 @@ class OpenBlockArduinoUnoUltraDevice {
                             TYPE: {
                                 type: ArgumentType.STRING,
                                 menu: 'dataType',
-                                defaultValue: DataType.WholeNumber
+                                defaultValue: DataType.Integer
                             }
                         },
                         programMode: [ProgramModeType.UPLOAD]
