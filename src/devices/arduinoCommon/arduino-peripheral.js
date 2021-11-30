@@ -438,11 +438,40 @@ class ArduinoPeripheral{
         }
     }
 
+    // add by txl
+    setInterfacePwmOutput (pin, value) {
+        if (this.isReady()) {
+            pin = this.parsePin(pin);
+            if (value < 0) {
+                value = 0;
+            }
+            if (value > 255) {
+                value = 255;
+            }
+            this._firmata.pinMode(pin, this._firmata.MODES.PWM);
+            this._firmata.pwmWrite(pin, value);
+        }
+    }
+
     /**
      * @param {PIN} pin - the pin to read.
      * @return {Promise} - a Promise that resolves when read from peripheral.
      */
     readDigitalPin (pin) {
+        if (this.isReady()) {
+            pin = this.parsePin(pin);
+            return new Promise(resolve => {
+                this._firmata.digitalRead(pin, value => {
+                    resolve(value);
+                });
+                window.setTimeout(() => {
+                    resolve();
+                }, FrimataReadTimeout);
+            });
+        }
+    }
+
+    readDigitalPinNum (pin) {
         if (this.isReady()) {
             pin = this.parsePin(pin);
             return new Promise(resolve => {

@@ -103,6 +103,12 @@ const ArgumentTypeMap = (() => {
             fieldName: 'NUM'
         }
     };
+    map[ArgumentType.BIT_NUMBER] = {
+        shadow: {
+            type: 'math_bit_number',
+            fieldName: 'NUM'
+        }
+    };
     map[ArgumentType.UINT10_NUMBER] = {
         shadow: {
             type: 'math_uint10_number',

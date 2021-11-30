@@ -44,6 +44,11 @@ const ArgumentType = {
     UINT8_NUMBER: 'uint8_number',
 
     /**
+     * bit value with slider field. from 0 to 8
+     */
+    BIT_NUMBER: 'bit_number',
+
+    /**
      * Numeric value with slider field. from 0 to 1024
      */
     UINT10_NUMBER: 'uint10_number',
