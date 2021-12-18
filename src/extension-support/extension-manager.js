@@ -38,7 +38,8 @@ const builtinDevices = {
     microbit: () => require('../devices/microbit'),
     makeyMakey: () => require('../devices/makeymakey'),
     microbitV2: () => require('../devices/microbitV2'),
-    unoCore: () => require('../devices/unoCore')
+    unoCore: () => require('../devices/unoCore'),
+    unoStart: () => require('../devices/unoStart')
 
     // todo transform these to device extension
     // wedo2: () => require('../extensions/scratch3_wedo2'),
